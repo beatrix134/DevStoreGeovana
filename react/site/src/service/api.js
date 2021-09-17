@@ -1,27 +1,24 @@
 import axios from 'axios'
 const api = axios.create({
-    baseURL: 'http://localhost:3030'
+    baseURL: 'http://localhost:3030/'
 })
 
 export default class Api {
-    
-    async listar() {
-        let r = await api.get('/produto')
+    async listar () {
+         let r = await api.get('/produto');
+         return r.data;
+    }
+    async inserir(produto, categoria, preco, estoque) {
+        let r = await api.post('/produto',{ produto, categoria, preco, estoque} );
         return r.data;
     }
-
-    async inserir(nmproduto, dscategoria, precode, precopor, avaliacao, dsproduto, qtdestoque, imgproduto, btativo, dtinclusao){
-        let r = await api.post('/produto', {nmproduto, dscategoria, precode, precopor, avaliacao, dsproduto, qtdestoque, imgproduto, btativo, dtinclusao})
+    async alterar(id, produto, categoria, preco, estoque) {
+        let r = await api.put('/produto/' + id, { produto, categoria, preco, estoque} );
         return r.data;
-    }
 
-    async alterar(id, nmproduto, dscategoria, precode, precopor, avaliacao, dsproduto, qtdestoque, imgproduto, btativo, dtinclusao){
-        let r = await api.put(`/produto/${id}`, { nmproduto, dscategoria, precode, precopor, avaliacao, dsproduto, qtdestoque, imgproduto, btativo, dtinclusao})
-        return r.data;
     }
-
-    async remover(id){
-        let r = await api.delete(`/produto/${id}`)
+    async remover(id) {
+        let r = await api.delete('/produto/' + id);
         return r.data;
     }
 }

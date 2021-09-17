@@ -1,12 +1,14 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Home from './pages/index'
+import Produto from './pages/produtos';
+import Error from './pages/error';
 
 export default function Routes() {
-    return(
+    return (
         <BrowserRouter>
             <Switch>
-                <Route path="/" exact={true} component={Home}/>
+                <Route path="/" exact={true} component={Produto} />
+                <Route path="*" component={Error} />
             </Switch>
         </BrowserRouter>
     )
