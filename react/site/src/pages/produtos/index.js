@@ -1,7 +1,10 @@
 
 import Cabecalho from '../../components/cabecalho'
 import Menu from '../../components/menu'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { confirmAlert } from 'react-confirm-alert'
+import 'react-confirm-alert/src/react-confirm-alert.css'
 import { Container, Conteudo } from './styled'
 
 import { useState, useEffect } from 'react';
@@ -38,13 +41,13 @@ export default function Index() {
         if(r.erro)
             alert(r.erro);
             else
-        alert('Produto inserido');
+        alert('🚀 Produto inserido');
         } else {
         let r = await api.alterar(idProduto, nproduto, categoria, preco_de, preco_por, avaliacao, dsproduto, estoque, imgproduto);
         if(r.erro)
             alert(r.erro);
             else
-        alert('Produto alterado');
+        alert('✏️ Produto alterado');
 
 
         }
@@ -64,12 +67,32 @@ export default function Index() {
         setImgproduto('');
         setIdProduto(0);
     }    
-    async function remover(id) {
-        let r = await api.remover(id);
-        alert(' Produto removido !!!');
-
-        listar();
+    function remover(id) {
+        confirmAlert({
+            title: 'Remover produto',
+            message: `Tem certeza que deseja remover o produto ${id} ?`,
+            buttons: [
+                {
+                    label: 'Sim',
+                    onClick: async () => {
+                        let r = await api.remover(id);
+                        if (r.erro)
+                            toast.error(`${r.error}`);
+                        else {
+                            toast.dark('🗑️ produto removido');
+                            listar();
+                        }
+                    }
+                },
+                {
+                    label: 'Não'
+                }
+            ]
+        });
     }
+
+    
+    
 
     async function editar(item) {
         setNproduto(item.nm_produto);
